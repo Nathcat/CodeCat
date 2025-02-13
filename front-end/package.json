@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Nathcat/CodeCat#readme",
   "dependencies": {
+    "tsc": "^2.0.4",
     "typescript": "^5.7.3"
   },
   "devDependencies": {
