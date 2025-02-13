@@ -4,4 +4,10 @@ project(CodeCat)
 
 add_executable(CodeCat src/main.cpp)
 
-target_include_directories(CodeCat PUBLIC ./include)
+target_sources(CodeCat PUBLIC 
+    src/FrontEndThread.cpp
+)
+
+target_include_directories(CodeCat PUBLIC 
+    ./include
+)
