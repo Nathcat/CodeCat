@@ -14,7 +14,8 @@
         "noFallthroughCasesInSwitch": true,
         "module": "commonjs",
         "outDir": "dist",
-        "rootDir": "src"
+        "rootDir": "src",
+        "esModuleInterop": true
     },
     "include": [
         "src/**/*"
