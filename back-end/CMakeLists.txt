@@ -18,6 +18,7 @@ target_sources(CodeCat PUBLIC
 
 target_include_directories(CodeCat PUBLIC 
     ${PROJECT_SOURCE_DIR}/AuthCat/include
+    ${PROJECT_SOURCE_DIR}/AuthCat/json/single_header
     ${PROJECT_SOURCE_DIR}/include
 )
 
