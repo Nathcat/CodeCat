@@ -1,9 +1,8 @@
 #ifndef AUTHCAT_H
 #define AUTHCAT_H
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 
-#include <netinet/in.h>
-#include <sys/socket.h>
-#include <unistd.h>
+#include <httplib.h>
 
 /// @brief An API providing access to AuthCat services.
 namespace AuthCat {
@@ -17,13 +16,6 @@ namespace AuthCat {
 
         User(int id, const char* username, const char* password, const char* fullName, const char* email);
     };
-
-    sockaddr_in getSocketAddr() {
-        sockaddr_in addr;
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(80);
-        addr.sin_addr.s_addr = INADDR_ANY;
-    }
 };
 
 #endif
