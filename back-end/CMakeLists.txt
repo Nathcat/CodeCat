@@ -1,13 +1,24 @@
-cmake_minimum_required(VERSION 3.30.0)
+cmake_minimum_required(VERSION 3.20.0)
 
+#
+#   AuthCat Wrapper
+#
+add_subdirectory(AuthCat)
+
+#
+#   CodeCat
+#
 project(CodeCat)
 
-add_executable(CodeCat src/main.cpp)
+add_executable(CodeCat ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 target_sources(CodeCat PUBLIC 
-    src/FrontEndThread.cpp
+    ${PROJECT_SOURCE_DIR}/src/FrontEndThread.cpp
 )
 
 target_include_directories(CodeCat PUBLIC 
-    ./include
+    ${PROJECT_SOURCE_DIR}/AuthCat/include
+    ${PROJECT_SOURCE_DIR}/include
 )
+
+target_link_libraries(CodeCat PUBLIC AuthCat)
