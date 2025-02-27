@@ -11,6 +11,13 @@ int main() {
 
     std::thread frontEndThread(frontEnd);
 
+    std::cout << "Starting back end..." << std::endl;
+    CodeCat::AcceptorThread acceptor;
+    
+    std::thread acceptorThread(acceptor);
+    
     frontEndThread.join();
+    acceptorThread.join();
+
     return 0;
 }

@@ -14,6 +14,8 @@ add_executable(CodeCat ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 target_sources(CodeCat PUBLIC 
     ${PROJECT_SOURCE_DIR}/src/FrontEndThread.cpp
+    ${PROJECT_SOURCE_DIR}/src/ClientThread.cpp
+    ${PROJECT_SOURCE_DIR}/src/AcceptorThread.cpp
 )
 
 target_include_directories(CodeCat PUBLIC 
