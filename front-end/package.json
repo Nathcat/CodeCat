@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Nathcat/CodeCat#readme",
   "dependencies": {
+    "commonjs": "^0.0.1",
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
     "node-html-parser": "^7.0.1"
