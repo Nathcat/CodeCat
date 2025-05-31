@@ -14,7 +14,6 @@ target_include_directories(AuthCat PUBLIC
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/cpp-httplib/benchmark/cpp-httplib-base
     ${PROJECT_SOURCE_DIR}/json/single_include
-    ${PROJECT_SOURCE_DIR}/openssl/include
 )
 
 target_link_libraries(AuthCat PUBLIC
@@ -33,7 +32,6 @@ target_include_directories(HTTPLibTest PUBLIC
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/cpp-httplib/benchmark/cpp-httplib-base
     ${PROJECT_SOURCE_DIR}/json/single_include
-    ${PROJECT_SOURCE_DIR}/openssl/include
 )
 
 target_link_libraries(HTTPLibTest PUBLIC
