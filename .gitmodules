@@ -4,3 +4,6 @@
 [submodule "back-end/AuthCat/json"]
 	path = back-end/AuthCat/json
 	url = https://github.com/nlohmann/json
+[submodule "back-end/AuthCat/openssl"]
+	path = back-end/AuthCat/openssl
+	url = https://github.com/openssl/openssl
