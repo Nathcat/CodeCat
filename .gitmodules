@@ -1,6 +1,0 @@
-[submodule "back-end/AuthCat/cpp-httplib"]
-	path = back-end/AuthCat/cpp-httplib
-	url = https://github.com/yhirose/cpp-httplib
-[submodule "back-end/AuthCat/json"]
-	path = back-end/AuthCat/json
-	url = https://github.com/nlohmann/json

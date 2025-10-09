@@ -3,3 +3,5 @@ build
 node_modules
 package-lock.json
 package.json
+# Ignore Gradle project-specific cache directory
+.gradle
