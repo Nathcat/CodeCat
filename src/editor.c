@@ -6,6 +6,8 @@ G_MODULE_EXPORT void editor_update_line_numbers(
 ) {
     // I really hate this function im sorry.
     // cba to work it out in a clever way rn
+
+    // Counts the number of lines in the editor text buffer and creates line numbers accordingly.
     int lineCount = gtk_text_buffer_get_line_count(gtk_text_view_get_buffer(ActiveEditor.editor));
      
     char buffer[2048];
@@ -27,8 +29,9 @@ G_MODULE_EXPORT void editor_update_auto_tab(
     gint len,
     gpointer user_data
 ) {
-    if (ActiveEditor.autoInsertingTabs) return;
-    
+    // If newline received, count the number of tabs at the start of the previous line and insert the same number
+    // of tabs at the start of a new line at the given location.
+
     if (strcmp(text, "\n") == 0) {
         GtkTextIter* search = (GtkTextIter*) malloc(sizeof(GtkTextIter));
         *search = *location;
@@ -52,14 +55,14 @@ G_MODULE_EXPORT void editor_update_auto_tab(
             gtk_text_iter_backward_char(search);
         }
 
-        ActiveEditor.autoInsertingTabs = true;
         char tabs[tabCount + 1];
         memset(tabs + 1, '\t', tabCount * sizeof(char));
         tabs[0] = '\n';
 
         gtk_text_buffer_insert(buffer, location, tabs, tabCount + 1);
-        ActiveEditor.autoInsertingTabs = false;
 
+        // Stop the continued signal emission such that GTK does not continue to insert the new line, since
+        // the newline must be inserted before the tabs.
         g_signal_stop_emission_by_name(buffer, "insert-text");
     }
 }

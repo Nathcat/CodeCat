@@ -1,6 +1,6 @@
 #include <CodeCat/CodeCat.h>
 
-struct Editor ActiveEditor = { 0, 0, false };
+struct Editor ActiveEditor = { 0, 0 };
 
 G_MODULE_EXPORT void p_hello() {
 	g_print("Hello");
