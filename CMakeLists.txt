@@ -10,9 +10,11 @@ link_directories(${GTK4_LIBRARY_DIRS})
 add_compile_options(${GTK4_CFLAGS_OTHER})
 set(LIBRARIES ${LIBRARIES} ${GTK4_LIBRARIES})
 
-include_directories(${GTK4_INCLUDE_DIRS})
+include_directories(${GTK4_INCLUDE_DIRS} include)
 
 add_executable(CodeCat src/main.c)
+target_sources(CodeCat PUBLIC src/editor.c)
+
 target_link_libraries(CodeCat PUBLIC ${LIBRARIES})
 
 message(STATUS "Libraries: ${LIBRARIES}")

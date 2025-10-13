@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface domain="net.nathcat.codecat">
+    <requires lib="gtk" version="4.0" />
+    <object class="GtkBox" id="editor-box">
+        <property name="layout-manager">
+            <object class="GtkConstraintLayout">
+                <constraints>
+                    <constraint 
+                        target="editor" 
+                        target-attribute="width"
+                        relation="eq"
+                        source="super"
+                        source-attribute="width"
+                        multiplier="0.5" 
+                    />
+
+                    <constraint
+                        target="editor"
+                        target-attribute="height"
+                        relation="eq"
+                        source="super"
+                        source-attribute="height"
+                    />
+
+                    <constraint
+                        target="editor"
+                        target-attribute="start"
+                        relation="eq"
+                        source="line-numbers"
+                        source-attribute="width"
+                    />
+
+                    <constraint
+                        target="line-numbers"
+                        target-attribute="end"
+                        source="editor"
+                        source-attribute="start"
+                        relation="eq"
+                    />
+
+                    <constraint
+                        target="line-numbers"
+                        target-attribute="height"
+                        source="editor"
+                        source-attribute="height"
+                        relation="eq"
+                    />
+
+                    <constraint
+                        target="line-numbers"
+                        target-attribute="width"
+                        constant="80"
+                        relation="eq"
+                    />                    
+                </constraints>
+
+            </object>
+        </property>
+
+        <child>
+            <object class="GtkTextView" id="editor">
+                <property name="name">editor</property>
+            </object>
+        </child>
+
+        <child>
+            <object class="GtkTextView" id="line-numbers">
+                <property name="name">line-numbers</property>    
+                <property name="editable">false</property>
+                <property name="cursor-visible">false</property>
+                <property name="left-margin">50</property>
+                <property name="right-margin">10</property>
+            </object>
+        </child>
+    </object>
+</interface>
