@@ -20,7 +20,7 @@ G_MODULE_EXPORT void editor_update_line_numbers(
     gtk_text_buffer_set_text(gtk_text_view_get_buffer(ActiveEditor.lineNumbers), buffer, p);
 }
 
-G_MODULE_EXPORT void editor_update_tab_level__increase(
+G_MODULE_EXPORT void editor_update_auto_tab(
     GtkTextBuffer* buffer,
     GtkTextIter* location,
     gchar* text,
@@ -28,35 +28,38 @@ G_MODULE_EXPORT void editor_update_tab_level__increase(
     gpointer user_data
 ) {
     if (ActiveEditor.autoInsertingTabs) return;
+    
+    if (strcmp(text, "\n") == 0) {
+        GtkTextIter* search = (GtkTextIter*) malloc(sizeof(GtkTextIter));
+        *search = *location;
 
-    if (strcmp(text, "\t") == 0) {
-        ActiveEditor.tabLevel++;
-        printf("Tab level is now %d\n", ActiveEditor.tabLevel);
-    }
-    else if (strcmp(text, "\n") == 0) {
-        g_signal_stop_emission_by_name(buffer, "insert-text");
+        gtk_text_iter_backward_char(search);
+
+        int tabCount = 0;
+        char c;
+        while ((c = gtk_text_iter_get_char(search)) != '\n') {
+            if (c == '\t') {
+                tabCount++;
+            }
+            else {
+                tabCount = 0;
+            }
+
+            if (gtk_text_iter_is_start(search)) {
+                break;
+            }
+
+            gtk_text_iter_backward_char(search);
+        }
 
         ActiveEditor.autoInsertingTabs = true;
-
-        char tabs[ActiveEditor.tabLevel + 1];
-        memset(tabs + 1, '\t', sizeof(char) * ActiveEditor.tabLevel);
+        char tabs[tabCount + 1];
+        memset(tabs + 1, '\t', tabCount * sizeof(char));
         tabs[0] = '\n';
 
-        gtk_text_buffer_insert(buffer, location, tabs, ActiveEditor.tabLevel + 1);
-
+        gtk_text_buffer_insert(buffer, location, tabs, tabCount + 1);
         ActiveEditor.autoInsertingTabs = false;
-    }
-}
 
-G_MODULE_EXPORT void editor_update_tab_level__decrease( 
-    GtkTextBuffer* buffer,
-    const GtkTextIter* start,
-    const GtkTextIter* end,
-    gpointer user_data
-) {
-    char* deleted = gtk_text_buffer_get_text(buffer, start, end, false);
-    if (strcmp(deleted, "\t") == 0 && ActiveEditor.tabLevel > 0) {
-        ActiveEditor.tabLevel--;
-        printf("Tab level is %d\n", ActiveEditor.tabLevel);
-    } 
+        g_signal_stop_emission_by_name(buffer, "insert-text");
+    }
 }

@@ -1,6 +1,6 @@
 #include <CodeCat/CodeCat.h>
 
-struct Editor ActiveEditor = { 0, 0, 0, false };
+struct Editor ActiveEditor = { 0, 0, false };
 
 G_MODULE_EXPORT void p_hello() {
 	g_print("Hello");
@@ -27,8 +27,7 @@ void activate(GtkApplication *app, gpointer user_data)
 	ActiveEditor.editor = (GtkTextView*) gtk_builder_get_object(builder, "editor");
 
 	g_signal_connect(gtk_text_view_get_buffer(ActiveEditor.editor), "changed", G_CALLBACK(editor_update_line_numbers), NULL);
-	g_signal_connect(gtk_text_view_get_buffer(ActiveEditor.editor), "insert-text", G_CALLBACK(editor_update_tab_level__increase), NULL);	
-	g_signal_connect(gtk_text_view_get_buffer(ActiveEditor.editor), "delete-range", G_CALLBACK(editor_update_tab_level__decrease), NULL);
+	g_signal_connect(gtk_text_view_get_buffer(ActiveEditor.editor), "insert-text", G_CALLBACK(editor_update_auto_tab), NULL);
 
 	gtk_window_present(GTK_WINDOW(window));
 }
