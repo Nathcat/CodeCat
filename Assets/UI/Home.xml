@@ -1,103 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface domain="net.nathcat.codecat">
     <requires lib="gtk" version="4.0" />
-    <object class="GtkBox" id="editor-box">
-        <property name="layout-manager">
-            <object class="GtkConstraintLayout">
-                <constraints>
-                    <constraint
-                        target="editor"
-                        target-attribute="height"
-                        relation="eq"
-                        source="super"
-                        source-attribute="height"
-                    />
-
-                    <constraint
-                        target="editor"
-                        target-attribute="start"
-                        relation="eq"
-                        source="editor-line-numbers-separator"
-                        source-attribute="end"
-                    />
-
-                    <constraint
-                        target="editor"
-                        target-attribute="end"
-                        relation="eq"
-                        source="super"
-                        source-attribute="end"
-                    />
-
-                    <constraint
-                        target="line-numbers"
-                        target-attribute="start"
-                        relation="eq"
-                        source="super"
-                        source-attribute="start"
-                    />
-
-                    <constraint
-                        target="line-numbers"
-                        target-attribute="end"
-                        source="editor-line-numbers-separator"
-                        source-attribute="start"
-                        relation="eq"
-                    />
-
-                    <constraint
-                        target="line-numbers"
-                        target-attribute="height"
-                        source="editor"
-                        source-attribute="height"
-                        relation="eq"
-                    />
-
-                    <constraint
-                        target="line-numbers"
-                        target-attribute="width"
-                        constant="100"
-                        relation="eq"
-                    />
-
-                    <constraint
-                        target="editor-line-numbers-separator"
-                        target-attribute="width"
-                        relation="eq"
-                        constant="5"
-                    />
-
-                    <constraint
-                        target="editor-line-numbers-separator"
-                        target-attribute="height"
-                        relation="eq"
-                        source="editor"
-                        source-attribute="height"
-                    />
-                </constraints>
-
-            </object>
-        </property>
+    
+    <object class="GtkGrid" id="home-box">
+        <property name="row-spacing">50</property>
+        <property name="column-spacing">10</property>
+        <property name="halign">GTK_ALIGN_CENTER</property>
+        <property name="valign">GTK_ALIGN_CENTER</property>
 
         <child>
-            <object class="GtkTextView" id="editor">
-                <property name="name">editor</property>
+            <object class="GtkLabel" id="title">
+                <property name="name">title</property>
+                <property name="label">CodeCat</property>
+                <property name="justify">GTK_JUSTIFY_CENTER</property>
+
+                <layout>
+                    <property name="column">0</property>
+                    <property name="row">0</property>
+                    <property name="column-span">3</property>
+                </layout>
             </object>
         </child>
 
         <child>
-            <object class="GtkSeparator" id="editor-line-numbers-separator" />
-        </child>
+            <object class="GtkButton" id="open-button">
+                <property name="label">Open project</property>
 
-        <child>
-            <object class="GtkTextView" id="line-numbers">
-                <property name="name">line-numbers</property>    
-                <property name="editable">false</property>
-                <property name="cursor-visible">false</property>
-                <property name="left-margin">20</property>
-                <property name="right-margin">50</property>
-                <property name="justification">GTK_JUSTIFY_RIGHT</property>
+                <layout>
+                    <property name="column">1</property>
+                    <property name="row">1</property>
+                </layout>
+
+                <signal name="clicked" handler="ccat_home_open_project" />
             </object>
         </child>
+
     </object>
 </interface>

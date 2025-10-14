@@ -46,4 +46,8 @@ G_MODULE_EXPORT void ccat_editor_update_auto_tab_gtk(
     gpointer user_data
 );
 
+/// @brief Loads the editor / project view to the given window
+/// @param target The window to load to
+void ccat_editor_load(GtkWindow *target);
+
 #endif

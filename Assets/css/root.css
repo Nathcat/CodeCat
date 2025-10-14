@@ -1,0 +1,45 @@
+@define-color primary-color #251D3A;
+@define-color secondary-color #2A2550;
+@define-color tertiary-color #E04D01;
+@define-color quad-color #FF7700;
+
+window {
+    background-color: @primary-color;
+}
+
+window .titlebar {
+    background: linear-gradient(45deg, #e600ff 0%, #00ccff 100%);
+}
+
+window .titlebar button * {
+    color: @tertiary-color;
+}
+
+window .titlebar button *:hover {
+    color: @secondary-color;
+    transition: 500ms;
+}
+
+label {
+    color: @quad-color;
+}
+
+button {
+    background-color: @secondary-color;
+    border: 5px solid @tertiary-color;
+    border-radius: 5px;
+}
+
+button label {
+    color: @tertiary-color;
+}
+
+button:hover {
+    background-color: @tertiary-color; 
+    transition: 500ms;
+}
+
+button label:hover {
+    color: @secondary-color;
+    transition: 500ms;
+}

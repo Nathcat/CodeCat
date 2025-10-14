@@ -7,6 +7,9 @@
 #include <gtk/gtk.h>
 #include "UIFiles.h"
 #include "Editor.h"
+#include "Home.h"
+
+extern GtkWindow *ccat_main_window;
 
 /// @brief Executed on the activation of the core GTK application
 /// @param app The initialised application

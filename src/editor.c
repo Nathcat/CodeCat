@@ -107,3 +107,20 @@ G_MODULE_EXPORT void ccat_editor_update_auto_tab_gtk(
         ccat_active_editor.__tabbing = false;
     }
 }
+
+void ccat_editor_load(GtkWindow *target) {
+    GtkCssProvider* css = gtk_css_provider_new();
+    gtk_css_provider_load_from_path(css, UI_EDITOR_CSS);    
+    gtk_style_context_add_provider_for_display(gtk_widget_get_display((GtkWidget*) target), GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    GtkBuilder *builder = gtk_builder_new_from_file(UI_PROJECT_XML);
+    GtkWidget *box = (GtkWidget*) gtk_builder_get_object(builder, "editor-box");
+
+    gtk_window_set_child(target, box);
+    gtk_window_present(target);
+
+    ccat_active_editor = ccat_new_editor_from_textviews(
+        (GtkTextView*) gtk_builder_get_object(builder, "line-numbers"),
+        (GtkTextView*) gtk_builder_get_object(builder, "editor")
+    );
+}

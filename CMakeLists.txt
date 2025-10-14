@@ -13,7 +13,10 @@ set(LIBRARIES ${LIBRARIES} ${GTK4_LIBRARIES})
 include_directories(${GTK4_INCLUDE_DIRS} include)
 
 add_executable(CodeCat src/main.c)
-target_sources(CodeCat PUBLIC src/editor.c)
+target_sources(CodeCat PUBLIC 
+    src/editor.c 
+    src/home.c
+)
 
 target_link_libraries(CodeCat PUBLIC ${LIBRARIES})
 
