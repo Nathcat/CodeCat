@@ -8,12 +8,9 @@
 #include "UIFiles.h"
 #include "Editor.h"
 
-/// @brief Global active editor
-extern struct Editor ActiveEditor;
-
 /// @brief Executed on the activation of the core GTK application
 /// @param app The initialised application
 /// @param userData Associated user data
-extern void activate(GtkApplication *app, gpointer userData);
+extern void ccat_activate_gtk(GtkApplication *app, gpointer userData);
 
 #endif

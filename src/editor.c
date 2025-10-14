@@ -1,6 +1,20 @@
 #include <CodeCat/CodeCat.h>
 
-G_MODULE_EXPORT void editor_update_line_numbers(
+struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextView *editor) {
+    struct Editor e = {
+        lineNumbers, editor,
+        CCAT_EDITOR_TABCHAR_4SPACE,
+        4,
+        false
+    };
+
+    g_signal_connect(gtk_text_view_get_buffer(e.editor), "changed", G_CALLBACK(ccat_update_line_numbers_gtk), NULL);
+	g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_update_auto_tab_gtk), NULL);
+
+    return e;
+}
+
+G_MODULE_EXPORT void ccat_update_line_numbers_gtk(
     GtkTextBuffer* self,
     gpointer user_data
 ) {
@@ -8,7 +22,7 @@ G_MODULE_EXPORT void editor_update_line_numbers(
     // cba to work it out in a clever way rn
 
     // Counts the number of lines in the editor text buffer and creates line numbers accordingly.
-    int lineCount = gtk_text_buffer_get_line_count(gtk_text_view_get_buffer(ActiveEditor.editor));
+    int lineCount = gtk_text_buffer_get_line_count(gtk_text_view_get_buffer(ccat_active_editor.editor));
      
     char buffer[2048];
     memset(buffer, 0, sizeof(char) * 2048);
@@ -19,10 +33,10 @@ G_MODULE_EXPORT void editor_update_line_numbers(
         p = strlen(buffer);
     } 
 
-    gtk_text_buffer_set_text(gtk_text_view_get_buffer(ActiveEditor.lineNumbers), buffer, p);
+    gtk_text_buffer_set_text(gtk_text_view_get_buffer(ccat_active_editor.lineNumbers), buffer, p);
 }
 
-G_MODULE_EXPORT void editor_update_auto_tab(
+G_MODULE_EXPORT void ccat_editor_update_auto_tab_gtk(
     GtkTextBuffer* buffer,
     GtkTextIter* location,
     gchar* text,
@@ -32,37 +46,64 @@ G_MODULE_EXPORT void editor_update_auto_tab(
     // If newline received, count the number of tabs at the start of the previous line and insert the same number
     // of tabs at the start of a new line at the given location.
 
+    if (ccat_active_editor.__tabbing) return;
+
     if (strcmp(text, "\n") == 0) {
         GtkTextIter* search = (GtkTextIter*) malloc(sizeof(GtkTextIter));
+        GtkTextIter* end = (GtkTextIter*) malloc(sizeof(GtkTextIter));
         *search = *location;
 
         gtk_text_iter_backward_char(search);
-
+        
         int tabCount = 0;
         char c;
         while ((c = gtk_text_iter_get_char(search)) != '\n') {
-            if (c == '\t') {
+            *end = *search;
+            gtk_text_iter_forward_chars(end, ccat_active_editor.tabStringLength);
+            char* qB = gtk_text_buffer_get_text(buffer, search, end, false);
+
+            if (strcmp(qB, ccat_active_editor.tabString) == 0) {
                 tabCount++;
+                gtk_text_iter_backward_char(search);
+                if (gtk_text_iter_get_char(search) == '\n') {
+                    break;
+                }
+
+                gtk_text_iter_backward_chars(search, ccat_active_editor.tabStringLength - 1);
             }
             else {
                 tabCount = 0;
+                gtk_text_iter_backward_char(search);
             }
 
             if (gtk_text_iter_is_start(search)) {
                 break;
             }
-
-            gtk_text_iter_backward_char(search);
         }
 
-        char tabs[tabCount + 1];
-        memset(tabs + 1, '\t', tabCount * sizeof(char));
-        tabs[0] = '\n';
+        ccat_active_editor.__tabbing = true;
 
-        gtk_text_buffer_insert(buffer, location, tabs, tabCount + 1);
+        gtk_text_buffer_insert(buffer, location, "\n", 1);
+        for (int i = 0; i < tabCount; i++) {
+            gtk_text_buffer_insert(
+                buffer,
+                location, 
+                ccat_active_editor.tabString, 
+                ccat_active_editor.tabStringLength
+            );
+        }
+
+        ccat_active_editor.__tabbing = false;
 
         // Stop the continued signal emission such that GTK does not continue to insert the new line, since
         // the newline must be inserted before the tabs.
         g_signal_stop_emission_by_name(buffer, "insert-text");
+    }
+    else if (strcmp(text, "\t") == 0) {
+        // Replace the input with the current tab character
+        ccat_active_editor.__tabbing = true;
+        g_signal_stop_emission_by_name(buffer, "insert-text");
+        gtk_text_buffer_insert(buffer, location, ccat_active_editor.tabString, ccat_active_editor.tabStringLength);
+        ccat_active_editor.__tabbing = false;
     }
 }
