@@ -5,15 +5,6 @@
         <property name="layout-manager">
             <object class="GtkConstraintLayout">
                 <constraints>
-                    <constraint 
-                        target="editor" 
-                        target-attribute="width"
-                        relation="eq"
-                        source="super"
-                        source-attribute="width"
-                        multiplier="0.5" 
-                    />
-
                     <constraint
                         target="editor"
                         target-attribute="height"
@@ -26,14 +17,30 @@
                         target="editor"
                         target-attribute="start"
                         relation="eq"
-                        source="line-numbers"
-                        source-attribute="width"
+                        source="editor-line-numbers-separator"
+                        source-attribute="end"
+                    />
+
+                    <constraint
+                        target="editor"
+                        target-attribute="end"
+                        relation="eq"
+                        source="super"
+                        source-attribute="end"
+                    />
+
+                    <constraint
+                        target="line-numbers"
+                        target-attribute="start"
+                        relation="eq"
+                        source="super"
+                        source-attribute="start"
                     />
 
                     <constraint
                         target="line-numbers"
                         target-attribute="end"
-                        source="editor"
+                        source="editor-line-numbers-separator"
                         source-attribute="start"
                         relation="eq"
                     />
@@ -49,9 +56,24 @@
                     <constraint
                         target="line-numbers"
                         target-attribute="width"
-                        constant="80"
+                        constant="100"
                         relation="eq"
-                    />                    
+                    />
+
+                    <constraint
+                        target="editor-line-numbers-separator"
+                        target-attribute="width"
+                        relation="eq"
+                        constant="5"
+                    />
+
+                    <constraint
+                        target="editor-line-numbers-separator"
+                        target-attribute="height"
+                        relation="eq"
+                        source="editor"
+                        source-attribute="height"
+                    />
                 </constraints>
 
             </object>
@@ -64,12 +86,17 @@
         </child>
 
         <child>
+            <object class="GtkSeparator" id="editor-line-numbers-separator" />
+        </child>
+
+        <child>
             <object class="GtkTextView" id="line-numbers">
                 <property name="name">line-numbers</property>    
                 <property name="editable">false</property>
                 <property name="cursor-visible">false</property>
-                <property name="left-margin">50</property>
-                <property name="right-margin">10</property>
+                <property name="left-margin">20</property>
+                <property name="right-margin">50</property>
+                <property name="justification">GTK_JUSTIFY_RIGHT</property>
             </object>
         </child>
     </object>
