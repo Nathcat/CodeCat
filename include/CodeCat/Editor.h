@@ -19,13 +19,20 @@ struct Editor {
     char* tabString;
     int tabStringLength;
     bool __tabbing;
+    /// @brief The file tree view widget
+    GtkBox *fileTree;
 };
 
 extern struct Editor ccat_active_editor;
 extern char* ccat_project_path;
 
 /// @brief Create a new editor with the default tab character (4 spaces)
-struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextView *editor, GtkScrolledWindow *scrollContainer);
+struct Editor ccat_new_editor_from_textviews(
+    GtkTextView *lineNumbers, 
+    GtkTextView *editor,
+    GtkScrolledWindow *scrollContainer,
+    GtkBox *fileTree
+);
 
 /// @brief Callback for updating the line numbers text view when the editor buffer changes
 /// @param buffer The internal text buffer of the editor

@@ -1,12 +1,19 @@
 #include <CodeCat/CodeCat.h>
 #include <dirent.h>
 
-struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextView *editor, GtkScrolledWindow *scrollContainer) {
+struct Editor ccat_new_editor_from_textviews(
+    GtkTextView *lineNumbers, 
+    GtkTextView *editor, 
+    GtkScrolledWindow *scrollContainer,
+    GtkBox *fileTree
+) {
     struct Editor e = {
         lineNumbers, editor, scrollContainer,
         CCAT_EDITOR_TABCHAR_4SPACE,
         4,
-        false
+        false,
+        0,
+        fileTree,
     };
 
     g_signal_connect(gtk_text_view_get_buffer(e.editor), "changed", G_CALLBACK(ccat_update_line_numbers_gtk), NULL);
@@ -143,7 +150,8 @@ void ccat_editor_load(GtkWindow *target) {
     ccat_active_editor = ccat_new_editor_from_textviews(
         (GtkTextView*) gtk_builder_get_object(builder, "line-numbers"),
         (GtkTextView*) gtk_builder_get_object(builder, "editor"),
-        (GtkScrolledWindow*) gtk_builder_get_object(builder, "editor-scroll-container")
+        (GtkScrolledWindow*) gtk_builder_get_object(builder, "editor-scroll-container"),
+        (GtkBox*) gtk_builder_get_object(builder, "file-tree-view")
     );
 
     puts("Setup editor window, reading project directory");
