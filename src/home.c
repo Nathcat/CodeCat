@@ -12,11 +12,14 @@ void ccat_home_load(
     GtkBuilder *builder = gtk_builder_new_from_file(UI_HOME_XML);
     GtkWidget *box = (GtkWidget*) gtk_builder_get_object(builder, "home-box");
 
+    GtkWidget *open_button = (GtkWidget*) gtk_builder_get_object(builder, "open-button");
+    g_signal_connect(open_button, "clicked", G_CALLBACK(ccat_home_open_project), NULL);
+
     gtk_window_set_child(target, box);
     gtk_window_present(target);
 }
 
-G_MODULE_EXPORT void ccat_home_open_project() {
+__attribute__((visibility("default"))) void ccat_home_open_project() {
     GtkFileDialog *dialog = gtk_file_dialog_new(); 
 
     gtk_file_dialog_select_folder(

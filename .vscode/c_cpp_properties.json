@@ -4,21 +4,26 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/msys64/mingw64/include/gtk-4.0",
-                "C:/msys64/mingw64/include/pango-1.0",
-                "C:/msys64/mingw64/include/fribidi",
-                "C:/msys64/mingw64/include",
-                "C:/msys64/mingw64/include/harfbuzz",
-                "C:/msys64/mingw64/include/gdk-pixbuf-2.0",
-                "C:/msys64/mingw64/include/webp",
-                "C:/msys64/mingw64/include/cairo",
-                "C:/msys64/mingw64/include/freetype2",
-                "C:/msys64/mingw64/include/libpng16",
-                "C:/msys64/mingw64/include/pixman-1",
-                "C:/msys64/mingw64/include/graphene-1.0",
-                "C:/msys64/mingw64/lib/graphene-1.0/include",
-                "C:/msys64/mingw64/include/glib-2.0",
-                "C:/msys64/mingw64/lib/glib-2.0/include"
+                "/usr/include/gtk-4.0",
+                "/usr/include/gtk-4.0",
+                "/usr/include/pango-1.0",
+                "/usr/include/fribidi",
+                "/usr/include",
+                "/usr/include/harfbuzz",
+                "/usr/include/gdk-pixbuf-2.0",
+                "/usr/include/webp",
+                "/usr/include/cairo",
+                "/usr/include/libxml2",
+                "/usr/include/freetype2",
+                "/usr/include/libpng16",
+                "/usr/include/pixman-1",
+                "/usr/include/graphene-1.0",
+                "/usr/lib64/graphene-1.0/include",
+                "/usr/include/glib-2.0",
+                "/usr/lib64/glib-2.0/include",
+                "/usr/include/libmount",
+                "/usr/include/blkid",
+                "/usr/include/sysprof-6"
             ],
             "defines": [
                 "_DEBUG",
@@ -26,10 +31,21 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.22621.0",
-            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "windows-gcc-x86"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4

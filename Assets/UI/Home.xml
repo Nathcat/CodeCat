@@ -31,7 +31,12 @@
                     <property name="row">1</property>
                 </layout>
 
-                <signal name="clicked" handler="ccat_home_open_project" />
+                <!--
+                    This does not work on UNIX. For whatever reason the symbol tables
+                    work different I assume. So G_MODULE_EXPORT is no-op where on
+                    Windows it exports the function to the symbol table.
+                -->
+                <!--<signal name="clicked" handler="ccat_home_open_project" />-->
             </object>
         </child>
 

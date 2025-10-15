@@ -12,8 +12,7 @@ struct Editor ccat_new_editor_from_textviews(
         CCAT_EDITOR_TABCHAR_4SPACE,
         4,
         false,
-        0,
-        fileTree,
+        fileTree
     };
 
     g_signal_connect(gtk_text_view_get_buffer(e.editor), "changed", G_CALLBACK(ccat_update_line_numbers_gtk), NULL);
