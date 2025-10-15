@@ -1,8 +1,9 @@
 #include <CodeCat/CodeCat.h>
+#include <dirent.h>
 
-struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextView *editor) {
+struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextView *editor, GtkScrolledWindow *scrollContainer) {
     struct Editor e = {
-        lineNumbers, editor,
+        lineNumbers, editor, scrollContainer,
         CCAT_EDITOR_TABCHAR_4SPACE,
         4,
         false
@@ -10,6 +11,7 @@ struct Editor ccat_new_editor_from_textviews(GtkTextView *lineNumbers, GtkTextVi
 
     g_signal_connect(gtk_text_view_get_buffer(e.editor), "changed", G_CALLBACK(ccat_update_line_numbers_gtk), NULL);
 	g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_update_auto_tab_gtk), NULL);
+    g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_auto_scroll), NULL);
 
     return e;
 }
@@ -108,19 +110,53 @@ G_MODULE_EXPORT void ccat_editor_update_auto_tab_gtk(
     }
 }
 
+G_MODULE_EXPORT void ccat_editor_auto_scroll(
+    GtkTextBuffer* buffer,
+    GtkTextIter* location,
+    gchar* text,
+    gint len,
+    gpointer user_data
+) {
+    // Not a great implementation.
+    // Keeps the scrollbar at the bottom if the user is entering text at the bottom,
+    // and doesnt scroll if the user enters text somewhere else in the text.
+    // While this is desired in some situations, if the cursor moves beyond the viewport while modifying the text away
+    // from the end, the viewport will not scroll to include the cursor.
+
+    if (gtk_text_iter_is_end(location)) {
+        GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(ccat_active_editor.scrollContainer);
+        gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
+    }
+}
+
 void ccat_editor_load(GtkWindow *target) {
     GtkCssProvider* css = gtk_css_provider_new();
     gtk_css_provider_load_from_path(css, UI_EDITOR_CSS);    
     gtk_style_context_add_provider_for_display(gtk_widget_get_display((GtkWidget*) target), GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
     GtkBuilder *builder = gtk_builder_new_from_file(UI_PROJECT_XML);
-    GtkWidget *box = (GtkWidget*) gtk_builder_get_object(builder, "editor-box");
+    GtkWidget *box = (GtkWidget*) gtk_builder_get_object(builder, "project-view");
 
     gtk_window_set_child(target, box);
     gtk_window_present(target);
 
     ccat_active_editor = ccat_new_editor_from_textviews(
         (GtkTextView*) gtk_builder_get_object(builder, "line-numbers"),
-        (GtkTextView*) gtk_builder_get_object(builder, "editor")
+        (GtkTextView*) gtk_builder_get_object(builder, "editor"),
+        (GtkScrolledWindow*) gtk_builder_get_object(builder, "editor-scroll-container")
     );
+
+    puts("Setup editor window, reading project directory");
+
+    DIR *d;
+    d = opendir(ccat_project_path);
+    if (d) {
+        struct dirent *dir;
+        while ((dir = readdir(d)) != NULL) {
+            puts(dir->d_name);
+        }
+    }
+    else {
+        puts("ERROR, project path provided is invalid.");
+    }
 }

@@ -1,6 +1,6 @@
 #include <CodeCat/CodeCat.h>
 
-struct Editor ccat_active_editor = {0, 0, CCAT_EDITOR_TABCHAR_4SPACE, 4, false};
+struct Editor ccat_active_editor = {0, 0, 0, CCAT_EDITOR_TABCHAR_4SPACE, 4, false};
 GtkWindow *ccat_main_window = 0;
 
 void ccat_activate_gtk(GtkApplication *app, gpointer user_data)

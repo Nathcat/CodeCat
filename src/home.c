@@ -1,5 +1,7 @@
 #include <CodeCat/CodeCat.h>
 
+char* ccat_project_path = ".";
+
 void ccat_home_load(
     GtkWindow *target
 ) {
@@ -43,6 +45,7 @@ void ccat_home_open_project_folder_chosen(
 
     if (G_IS_FILE(folder)) {
         puts(g_file_get_path(folder));
+        ccat_project_path = g_file_get_path(folder);
         ccat_editor_load(ccat_main_window);
     }
     else {

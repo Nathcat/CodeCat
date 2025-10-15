@@ -1,4 +1,8 @@
 textview#editor, textview#line-numbers {
     font-family: Monospace;
     font-size: 30px;
+
+    background: #383838;
+    color: @tertiary-color;
+    caret-color: @tertiary-color;
 }
