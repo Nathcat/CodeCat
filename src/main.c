@@ -17,6 +17,8 @@ void ccat_activate_gtk(GtkApplication *app, gpointer user_data)
     gtk_css_provider_load_from_path(css, UI_ROOT_CSS);  
 	
 	ccat_home_load(GTK_WINDOW(window));
+
+	printf("Loaded home page");
 }
 
 int main(int argc, char **argv)

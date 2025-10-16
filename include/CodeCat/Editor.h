@@ -7,6 +7,8 @@
 #define CCAT_EDITOR_TABCHAR_2SPACE "  "
 #define CCAT_EDITOR_TABCHAR_TAB    "\t"
 
+#define CCAT_EDITOR_FILE_READ_BLOCK_SIZE 2048
+
 /// @brief Struct containing information about the currently active editor
 struct Editor {
     /// @brief The text view containing the line numbers in the editor
@@ -21,6 +23,7 @@ struct Editor {
     bool __tabbing;
     /// @brief The file tree view widget
     GtkBox *fileTree;
+    FILE *file;
 };
 
 extern struct Editor ccat_active_editor;
@@ -73,5 +76,9 @@ G_MODULE_EXPORT void ccat_editor_auto_scroll(
 /// @brief Loads the editor / project view to the given window
 /// @param target The window to load to
 void ccat_editor_load(GtkWindow *target);
+
+void ccat_editor_discover_file_tree(char *path, GtkBox* parent);
+
+void ccat_editor_open_file(GtkButton *target);
 
 #endif

@@ -1,8 +1,27 @@
 textview#editor, textview#line-numbers {
     font-family: Monospace;
-    font-size: 30px;
+    font-size: 20px;
 
     background: #383838;
     color: @tertiary-color;
     caret-color: @tertiary-color;
+}
+
+.open-target {
+    background: @primary-color;
+    border: none;
+}
+
+.open-target:hover {
+    background-color: @secondary-color;
+}
+
+.open-target label:hover {
+    color: @tertiary-color;
+    font-weight: bolder;
+    transition: 0ms;
+}
+
+.debug {
+    border: 1px solid white;
 }

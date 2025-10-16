@@ -4,59 +4,12 @@
 
     <object class="GtkPaned" id="project-view">
         <property name="start-child">
-            <object class="GtkBox" id="file-tree-view">
-                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+
+            <object class="GtkScrolledWindow">
                 <child>
-                    <object class="GtkExpander">
-                        <property name="label-widget">
-                            <object class="GtkLabel">
-                                <property name="label">A</property>
-                            </object>
-                        </property>
-
-                        <property name="child">
-                            <object class="GtkBox">
-                                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">B</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">C</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </property>
-                    </object>
-                </child>
-
-                <child>
-                    <object class="GtkExpander">
-                        <property name="label-widget">
-                            <object class="GtkLabel">
-                                <property name="label">A</property>
-                            </object>
-                        </property>
-
-                        <property name="child">
-                            <object class="GtkBox">
-                                <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
-
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">B</property>
-                                    </object>
-                                </child>
-                                <child>
-                                    <object class="GtkLabel">
-                                        <property name="label">C</property>
-                                    </object>
-                                </child>
-                            </object>
-                        </property>
+                    <object class="GtkBox" id="file-tree-view">
+                        <property name="orientation">GTK_ORIENTATION_VERTICAL</property>
+                        <property name="spacing">5</property>
                     </object>
                 </child>
             </object>
