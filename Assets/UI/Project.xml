@@ -20,6 +20,13 @@
                 <property name="layout-manager">
                     <object class="GtkConstraintLayout">
                         <constraints>
+                            <!-- 
+                            Editor height still has issues!
+
+                            When inserting a new file the window will resize to be too big, breaking... everything?
+                            This is when the editor heigh is constrained to = super.height, when set to a constant like below
+                            it behaves as it should, except does not expand. 
+                            -->
                             <constraint
                                 target="editor"
                                 target-attribute="height"

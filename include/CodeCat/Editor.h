@@ -2,6 +2,7 @@
 #define CODECAT_EDITOR_H
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #define CCAT_EDITOR_TABCHAR_4SPACE "    "
 #define CCAT_EDITOR_TABCHAR_2SPACE "  "
@@ -24,6 +25,7 @@ struct Editor {
     /// @brief The file tree view widget
     GtkBox *fileTree;
     FILE *file;
+    const char* filePath;
 };
 
 extern struct Editor ccat_active_editor;
@@ -80,5 +82,21 @@ void ccat_editor_load(GtkWindow *target);
 void ccat_editor_discover_file_tree(char *path, GtkBox* parent);
 
 void ccat_editor_open_file(GtkButton *target);
+
+G_MODULE_EXPORT gboolean ccat_editor_auto_save(
+    GtkEventControllerKey* self,
+    guint keyval,
+    guint keycode,
+    GdkModifierType state,
+    gpointer user_data
+);
+
+G_MODULE_EXPORT gboolean ccat_editor_key_press_event(
+    GtkEventControllerKey* self,
+    guint keyval,
+    guint keycode,
+    GdkModifierType state,
+    gpointer user_data
+);
 
 #endif

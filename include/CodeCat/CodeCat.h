@@ -16,4 +16,6 @@ extern GtkWindow *ccat_main_window;
 /// @param userData Associated user data
 extern void ccat_activate_gtk(GtkApplication *app, gpointer userData);
 
+extern GtkEventControllerKey *ccat_key_event_controller;
+
 #endif

@@ -2,6 +2,7 @@
 
 struct Editor ccat_active_editor = {0, 0, 0, CCAT_EDITOR_TABCHAR_4SPACE, 4, false};
 GtkWindow *ccat_main_window = 0;
+GtkEventControllerKey *ccat_key_event_controller = 0;
 
 void ccat_activate_gtk(GtkApplication *app, gpointer user_data)
 {
@@ -11,6 +12,9 @@ void ccat_activate_gtk(GtkApplication *app, gpointer user_data)
 	ccat_main_window = GTK_WINDOW(window);
 	gtk_window_set_title(GTK_WINDOW(window), "CodeCat");
 	gtk_window_set_default_size(GTK_WINDOW(window), INIT_WIDTH, INIT_HEIGHT);
+	
+	ccat_key_event_controller = GTK_EVENT_CONTROLLER_KEY(gtk_event_controller_key_new());
+	gtk_widget_add_controller(window, GTK_EVENT_CONTROLLER(ccat_key_event_controller));
 
 	GtkCssProvider* css = gtk_css_provider_new();
     gtk_style_context_add_provider_for_display(gtk_widget_get_display(window), GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -18,7 +22,7 @@ void ccat_activate_gtk(GtkApplication *app, gpointer user_data)
 	
 	ccat_home_load(GTK_WINDOW(window));
 
-	printf("Loaded home page");
+	printf("Loaded home page\n");
 }
 
 int main(int argc, char **argv)
