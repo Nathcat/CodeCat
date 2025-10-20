@@ -18,8 +18,9 @@ struct Editor ccat_new_editor_from_textviews(
 
     g_signal_connect(gtk_text_view_get_buffer(e.editor), "changed", G_CALLBACK(ccat_update_line_numbers_gtk), NULL);
 	g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_update_auto_tab_gtk), NULL);
-    g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_auto_scroll), NULL);
+    g_signal_connect(gtk_text_view_get_buffer(e.editor), "insert-text", G_CALLBACK(ccat_editor_auto_scroll), NULL); 
 
+    gtk_widget_add_css_class(GTK_WIDGET(e.editor), "debug");
     return e;
 }
 
@@ -124,17 +125,16 @@ G_MODULE_EXPORT void ccat_editor_auto_scroll(
     gint len,
     gpointer user_data
 ) {
-    // Not a great implementation.
-    // Keeps the scrollbar at the bottom if the user is entering text at the bottom,
-    // and doesnt scroll if the user enters text somewhere else in the text.
-    // While this is desired in some situations, if the cursor moves beyond the viewport while modifying the text away
-    // from the end, the viewport will not scroll to include the cursor.
-    if (ccat_active_editor.__tabbing) return;
+    // Implementation using text marks
+    //
+    // Better than the previous implementation which simply scrolls to the bottom when text is inserted
+    // at the end of the buffer, but this approach does not (at the moment), allow the user to scroll 
+    // using gestures, it only scrolls on text insertion.
+    GtkTextMark *m = gtk_text_buffer_get_mark(buffer, "insert");
+    gtk_text_view_scroll_mark_onscreen(ccat_active_editor.editor, m);
 
-    if (gtk_text_iter_is_end(location)) {
-        GtkAdjustment *adj = gtk_scrolled_window_get_vadjustment(ccat_active_editor.scrollContainer);
-        gtk_adjustment_set_value(adj, gtk_adjustment_get_upper(adj) - gtk_adjustment_get_page_size(adj));
-    }
+    GtkAdjustment *adj = gtk_scrollable_get_vadjustment(GTK_SCROLLABLE(ccat_active_editor.editor));
+    gtk_scrollable_set_vadjustment(GTK_SCROLLABLE(ccat_active_editor.lineNumbers), adj);
 }
 
 void test() {
@@ -155,7 +155,7 @@ void ccat_editor_load(GtkWindow *target) {
     ccat_active_editor = ccat_new_editor_from_textviews(
         (GtkTextView*) gtk_builder_get_object(builder, "line-numbers"),
         (GtkTextView*) gtk_builder_get_object(builder, "editor"),
-        (GtkScrolledWindow*) gtk_builder_get_object(builder, "editor-scroll-container"),
+        NULL,//(GtkScrolledWindow*) gtk_builder_get_object(builder, "editor-scroll-container"),
         (GtkBox*) gtk_builder_get_object(builder, "file-tree-view")
     );
 
